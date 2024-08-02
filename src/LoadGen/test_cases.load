@@ -1,0 +1,203 @@
+
+ORDER wipe
+PRODUCT wipe
+USER wipe
+
+# shellcheck disable=SC1035
+!PRINT WIPED THE DATABASES CLEAN!!!
+
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!PRINT *************** Approx. 1600 requests will execute ***************
+# Start several timers to time each sections performance
+
+!PSTART
+
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER START USER_PROD_CREATE
+!LOOP 100
+USER create var.a++ samzhang a@a.com 1234
+
+
+!LOOP 100
+PRODUCT create var.b++ productname 3.99 rnd.50:100
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER STOP USER_PROD_CREATE
+
+!TIMER START USER_PROD_GET
+
+!LOOP 100
+USER get var.a++ ==== 200|a@a.com
+
+!LOOP 100
+PRODUCT get var.b++ ==== 200|3.99
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+
+!TIMER STOP USER_PROD_GET
+
+!TIMER START ORDER_PLACE_300
+
+!LOOP 100
+ORDER place var.a++ var.a rnd.2:6
+!LOOP 100
+ORDER place var.b++ var.b rnd.2:6
+!LOOP 100
+ORDER place var.c++ var.c rnd.2:6
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER STOP ORDER_PLACE_300
+
+
+!PRINT Orders have been placed. Delaying for 10 seconds for cache
+!DELAY 10000
+
+!TIMER START ORDER_PURCHASED_900
+!LOOP 100
+ORDER purchased var.a++ ==== 200|{
+!LOOP 100
+ORDER purchased var.b++ ==== 200|{
+!LOOP 100
+ORDER purchased var.c++ ==== 200|{
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!LOOP 100
+ORDER purchased var.a++ ==== 200|{
+!LOOP 100
+ORDER purchased var.b++ ==== 200|{
+!LOOP 100
+ORDER purchased var.c++ ==== 200|{
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!LOOP 100
+ORDER purchased var.a++ ==== 200|{
+!LOOP 100
+ORDER purchased var.b++ ==== 200|{
+!LOOP 100
+ORDER purchased var.c++  ==== 200|{
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER STOP ORDER_PURCHASED_900
+
+!TIMER PRINT USER_PROD_CREATE
+!TIMER PRINT USER_PROD_GET
+!TIMER PRINT ORDER_PLACE_300
+!TIMER PRINT ORDER_PURCHASED_900
+
+END
+
+!PSTART
+# Add Users
+USER create 99991 samzhang m@m.com 1234
+USER create 99992 samzhang m@m.com 1234
+USER create 99993 samzhang m@m.com 1234
+USER create 99994 samzhang m@m.com 1234
+USER create 99995 samzhang m@m.com 1234
+USER create 99996 samzhang m@m.com 1234
+USER create 99997 samzhang m@m.com 1234
+USER create 99998 samzhang m@m.com 1234
+USER create 99999 samzhang a@a.com 1234
+
+!PRINT ADDED USERS!
+# Add Products
+PRODUCT create 89991 productname 3.99 1
+PRODUCT create 89992 productname 3.99 2
+PRODUCT create 89993 productname 3.99 3
+PRODUCT create 89994 productname 3.99 4
+PRODUCT create 89995 productname 3.99 5
+PRODUCT create 89996 productname 3.99 6
+PRODUCT create 89997 productname 3.99 7
+PRODUCT create 89998 productname 3.99 8
+PRODUCT create 89999 productname 3.99 9
+
+!PSYNC
+
+
+# Test Duplicates
+USER create 99999 sadfgsad9 a@a.com 1234 ==== 409
+PRODUCT create 89999 productname-9 3.99 9 ==== 409
+
+# Get IDs that exist
+USER get 1 ==== 200|samzhang
+USER get 2 ==== 200|samzhang
+USER get 3 ==== 200|samzhang
+USER get 4 ==== 200|samzhang
+USER get 5 ==== 200|samzhang
+USER get 6 ==== 200|samzhang
+USER get 7 ==== 200|samzhang
+USER get 8 ==== 200|samzhang
+USER get 9 ==== 200|samzhang
+PRODUCT get 1 ==== 200|productname
+PRODUCT get 2 ==== 200|productname
+PRODUCT get 3 ==== 200|productname
+PRODUCT get 4 ==== 200|productname
+PRODUCT get 5 ==== 200|productname
+PRODUCT get 6 ==== 200|productname
+PRODUCT get 7 ==== 200|productname
+PRODUCT get 8 ==== 200|productname
+PRODUCT get 9 ==== 200|productname
+# Get ids that don't exist
+USER get 77331 ==== 404
+USER get 77332 ==== 404
+USER get 77333 ==== 404
+USER get 77334 ==== 404
+USER get 77335 ==== 404
+PRODUCT get 66821 ==== 404
+PRODUCT get 66822 ==== 404
+PRODUCT get 66823 ==== 404
+PRODUCT get 66824 ==== 404
+PRODUCT get 66825 ==== 404
+# Update Users
+USER update 1 username:sam123 ==== 200|sam123
+USER update 2 email:updated@m.com ==== 200|updated@m.com
+USER update 3 password:5678 ==== 200|samzhang
+USER update 4 username:mattlant423 email:updated@m.com ==== 200|sam423
+USER update 5 username:mattlant423 email:updated@m.com password:5678 ==== 200|sam423
+# Update Products
+PRODUCT update 1 name:uproduct-1 ==== 200|uproduct-1
+PRODUCT update 2 quantity:713 ==== 200|713
+PRODUCT update 3 name:uproduct-3 quantity:713 ==== 200|713
+# Delete Users
+# OK
+
+!PSYNC
+
+USER delete 9 samzhang a@a.com 1234 ==== 200
+# WRONG FIELDS
+USER delete 8 sam_wrong a@a.com 1234 ==== 400
+
+# Delete Products
+PRODUCT delete 9 productname 3.99 9 ==== 200
+# WRONG FIELDS
+PRODUCT delete 8 productname-wrong 3.99 9 ==== 400
+
+END
+

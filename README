@@ -1,0 +1,34 @@
+# Microservices Architecture in Java
+
+## Things to Note
+All jar dependencies are downloaded on first compile
+The services uses virtual threads which is included in Java 21+
+JDK 21 is downloaded on first compile
+Nginx src files are downloaded and compiled with script located in nginx/
+Starting Nginx:
+./nginx.sh -start/stop
+OrderService requires User and ProductService to be up.
+
+## Compilation
+To compile the entire project, run the following command:
+./runme.sh -c
+
+## Running Microservices
+- Start All:
+./runme.sh -a
+Then to swich to any service screen:
+./runme.sh -su/p/o
+To detatch from service screen:
+ctrl+a AND THEN d
+
+- User Microservice:
+./runme.sh -u
+
+- Product Microservice:
+./runme.sh -p
+
+- ISCS Microservice:
+./runme.sh -i
+
+- Order Microservice:
+./runme.sh -o

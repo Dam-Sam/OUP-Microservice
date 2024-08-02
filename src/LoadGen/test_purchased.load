@@ -1,0 +1,84 @@
+
+ORDER wipe
+PRODUCT wipe
+USER wipe
+
+# shellcheck disable=SC1035
+!PRINT WIPED THE DATABASES AND CACHES CLEAN!!!
+!DELAY 1000
+
+
+!PSTART
+# Add Users
+USER create 1 samzhang m@m.com 1234
+!PRINT ADDED USER!
+!DELAY 1000
+
+
+# Add Products
+PRODUCT create 1 productname 3.99 rnd.20:30
+PRODUCT create 2 productname 3.99 rnd.20:30
+PRODUCT create 3 productname 3.99 rnd.20:30
+!PSYNC
+
+
+# Test Duplicates
+USER create 99999 sadfgsad9 a@a.com 1234 ==== 409
+PRODUCT create 89999 productname-9 3.99 9 ==== 409
+
+# Get IDs that exist
+USER get 1 ==== 200|samzhang
+USER get 2 ==== 200|samzhang
+USER get 3 ==== 200|samzhang
+USER get 4 ==== 200|samzhang
+USER get 5 ==== 200|samzhang
+USER get 6 ==== 200|samzhang
+USER get 7 ==== 200|samzhang
+USER get 8 ==== 200|samzhang
+USER get 9 ==== 200|samzhang
+PRODUCT get 1 ==== 200|productname
+PRODUCT get 2 ==== 200|productname
+PRODUCT get 3 ==== 200|productname
+PRODUCT get 4 ==== 200|productname
+PRODUCT get 5 ==== 200|productname
+PRODUCT get 6 ==== 200|productname
+PRODUCT get 7 ==== 200|productname
+PRODUCT get 8 ==== 200|productname
+PRODUCT get 9 ==== 200|productname
+# Get ids that don't exist
+USER get 77331 ==== 404
+USER get 77332 ==== 404
+USER get 77333 ==== 404
+USER get 77334 ==== 404
+USER get 77335 ==== 404
+PRODUCT get 66821 ==== 404
+PRODUCT get 66822 ==== 404
+PRODUCT get 66823 ==== 404
+PRODUCT get 66824 ==== 404
+PRODUCT get 66825 ==== 404
+# Update Users
+USER update 1 username:sam123 ==== 200|sam123
+USER update 2 email:updated@m.com ==== 200|updated@m.com
+USER update 3 password:5678 ==== 200|samzhang
+USER update 4 username:mattlant423 email:updated@m.com ==== 200|sam423
+USER update 5 username:mattlant423 email:updated@m.com password:5678 ==== 200|sam423
+# Update Products
+PRODUCT update 1 name:uproduct-1 ==== 200|uproduct-1
+PRODUCT update 2 quantity:713 ==== 200|713
+PRODUCT update 3 name:uproduct-3 quantity:713 ==== 200|713
+# Delete Users
+# OK
+
+!PSYNC
+
+USER delete 9 samzhang a@a.com 1234 ==== 200
+# WRONG FIELDS
+USER delete 8 sam_wrong a@a.com 1234 ==== 400
+
+# Delete Products
+PRODUCT delete 9 productname 3.99 9 ==== 200
+# WRONG FIELDS
+PRODUCT delete 8 productname-wrong 3.99 9 ==== 400
+
+END
+

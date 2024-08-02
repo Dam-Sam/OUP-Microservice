@@ -1,0 +1,19 @@
+ORDER wipe
+PRODUCT wipe
+USER wipe
+!DELAY 2000
+
+# Enable parallel request processing and disable test framework for max performance of LoadGen
+!PSTART
+!NOTEST
+
+!TIMER START TEST_TIMER
+USER create 20 samzhang a@a.com 1234
+PRODUCT create 20 productname 3.99 100000
+
+!LOOP 10000
+ORDER place 20 20 1
+!ENDLOOP
+!PSYNC
+
+!TIMER STOP TEST_TIMER

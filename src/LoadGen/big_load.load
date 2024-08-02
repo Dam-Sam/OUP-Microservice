@@ -1,0 +1,98 @@
+
+ORDER wipe
+PRODUCT wipe
+USER wipe
+
+# shellcheck disable=SC1035
+!PRINT WIPED THE DATABASES CLEAN!!!
+!DELAY 2000
+
+!HEADER X-Load-Simulate=1
+!NOTEST
+
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+# Enable parallel request processing
+!PSTART
+
+!TIMER START USER_PROD_CREATE
+
+!LOOP 1000
+USER create var.a++ samzhang a@a.com 1234
+!PSYNC
+
+!LOOP 1000
+PRODUCT create var.b++ productname 3.99 rnd.50:100
+!PSYNC
+
+!TIMER STOP USER_PROD_CREATE
+
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER START USER_PROD_GET
+
+!LOOP 250
+USER get var.a++ ==== 200|a@a.com
+!LOOP 250
+PRODUCT get var.b++ ==== 200|3.99
+!LOOP 250
+USER get var.a++ ==== 200|a@a.com
+!LOOP 250
+PRODUCT get var.b++ ==== 200|3.99
+!LOOP 250
+USER get var.a++ ==== 200|a@a.com
+!LOOP 250
+PRODUCT get var.b++ ==== 200|3.99
+!LOOP 250
+USER get var.a++ ==== 200|a@a.com
+!LOOP 250
+PRODUCT get var.b++ ==== 200|3.99
+!PSYNC
+
+!TIMER STOP USER_PROD_GET
+
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER START ORDER_PLACE_1000
+
+!LOOP 1000
+ORDER place var.a++ var.b++ rnd.2:6
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!LOOP 1000
+ORDER place var.a++ var.b++ rnd.2:6
+!PSYNC
+
+!TIMER STOP ORDER_PLACE_300
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!PRINT Orders have been placed. Delaying for 2 seconds for cache
+!DELAY 2000
+
+!TIMER START ORDER_PURCHASED_900
+!LOOP 1000
+ORDER purchased var.a++ ==== 200|{"
+#" - terminate
+
+!PSYNC
+!SETVAR a=1
+!SETVAR b=1
+!SETVAR c=1
+
+!TIMER STOP ORDER_PURCHASED_900
+
+
+
+!TIMER PRINT USER_PROD_CREATE
+!TIMER PRINT USER_PROD_GET
+!TIMER PRINT ORDER_PLACE_300
+!TIMER PRINT ORDER_PURCHASED_900
