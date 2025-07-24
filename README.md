@@ -76,21 +76,6 @@ Created a **domain-specific language (DSL)** for realistic scenario simulation w
 
 ---
 
-## 📁 Example Scripts
-
-- 📄 **[Basic Test Script](#)**  
-- 📄 **[Advanced Test Script (High Load)](#)**
-
----
-
-## 📸 Demo Snapshot
-
-- 📍 Demo performed on-campus using real-time test loads
-- 🧪 Verified persistence, concurrent correctness, and error handling  
-- 🔗 **[GitHub Repo](#)**
-
----
-
 ## 🧱 How to Run Locally
 
 ### 🐳 Prerequisites
@@ -146,12 +131,12 @@ Detach from a service screen: `Ctrl + A` then `D`
 
 ## 🧑‍💻 Contributions & Ownership
 
-Although a team project, the initial codebase was largely non-functional. I independently:
+The initial codebase was largely non-functional. I independently:
 
 - Refactored all core services
 - Designed the caching and load balancing strategy
 - Built the DSL testing engine and CLI scripts
-- Engineered the final system exceeding performance expectations
+- Engineered the final system, exceeding performance expectations
 
 ---
 
@@ -166,8 +151,6 @@ Flexible **JSON configuration** supports:
 - Host IP autodetection
 - Seamless test environment switching
 
-📄 **[Example Config File](#)**
-
 ---
 
 ## 📚 Project Background
@@ -177,16 +160,6 @@ This was a **capstone-style project** for a university distributed systems cours
 - Scale microservices to support 1000+ concurrent clients
 - Demonstrate state consistency and resiliency under load
 - Showcase design thinking and engineering rigor
-
-📄 **[Assignment Details](#)** (include link or PDF)
-
----
-
-## 📎 Links
-
-- 🔗 **[Live GitHub Repo](#)**
-- 📄 **[Advanced Test Script](#)**
-- 🛠️ **[Startup Script](#)**
 
 ---
 
