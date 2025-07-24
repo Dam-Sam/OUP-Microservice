@@ -8,7 +8,6 @@ A high-performance distributed system built in Java using microservices and cont
 ## 🏆 Achievements
 
 - 🥈 **2nd place** in throughput challenge  
-  > _Note: First place team used non-functional shortcuts to artificially inflate performance._
 - ✅ **Perfect score** on project evaluation
 - 🧠 Refactored and optimized entire system beyond team baseline
 
