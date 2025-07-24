@@ -1,3 +1,4 @@
+
 # High-Performance Distributed Microservices System
 
 A high-performance distributed system built in Java using microservices and containerized infrastructure. Capable of handling over **5900 requests/sec** during demo testing — nearly **300× improvement** over the initial baseline. Designed for **horizontal scalability**, **modularity**, and **fault-tolerant real-time load handling**.
@@ -103,3 +104,97 @@ Created a **domain-specific language (DSL)** for realistic scenario simulation w
 
 ```bash
 ./runme.sh -c
+```
+
+- Downloads JDK 21
+- Compiles code
+- Pulls dependencies automatically
+
+### 🚀 Start All Services
+
+```bash
+./runme.sh -a
+```
+
+Each service runs in its own screen session.
+
+Switch between services:
+```bash
+./runme.sh -su   # UserService
+./runme.sh -p    # ProductService
+./runme.sh -o    # OrderService
+```
+
+Detach from a service screen: `Ctrl + A` then `D`
+
+### 🔄 Stop All Services
+
+```bash
+./runme.sh -x
+```
+
+---
+
+## 🧠 Key Learnings
+
+- Deep understanding of distributed systems under high load
+- Performance profiling and targeted bottleneck optimization
+- Real-world software architecture: scalability, resilience, abstraction
+- Built developer tooling: custom CLI, config system, testing DSL
+- Learned the importance of writing clean, extensible code — not just working code
+
+---
+
+## 🧑‍💻 Contributions & Ownership
+
+Although a team project, the initial codebase was largely non-functional. I independently:
+
+- Refactored all core services
+- Designed the caching and load balancing strategy
+- Built the DSL testing engine and CLI scripts
+- Engineered the final system exceeding performance expectations
+
+---
+
+## 🧩 Configuration System
+
+Flexible **JSON configuration** supports:
+
+- Per-service overrides
+- Pool sizes, timeouts, queue lengths
+- Cache settings
+- Logging verbosity
+- Host IP autodetection
+- Seamless test environment switching
+
+📄 **[Example Config File](#)**
+
+---
+
+## 📚 Project Background
+
+This was a **capstone-style project** for a university distributed systems course, with goals to:
+
+- Scale microservices to support 1000+ concurrent clients
+- Demonstrate state consistency and resiliency under load
+- Showcase design thinking and engineering rigor
+
+📄 **[Assignment Details](#)** (include link or PDF)
+
+---
+
+## 📎 Links
+
+- 🔗 **[Live GitHub Repo](#)**
+- 📄 **[Advanced Test Script](#)**
+- 🛠️ **[Startup Script](#)**
+
+---
+
+## 📢 Contact
+
+**👤 Sam Zhang**  
+📬 sam.zhangv1.0@gmail.com  
+🔗 [LinkedIn](#) | [GitHub](#)
+
+---
