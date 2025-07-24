@@ -1,34 +1,118 @@
-# Microservices Architecture in Java
+High-performance distributed system built in Java using microservices and containerized infrastructure. Capable of handling over 5900 requests/sec during demo testing — nearly 300x improvement over initial baseline. Designed for horizontal scalability, modularity, and fault-tolerant real-time load handling.
 
-## Things to Note
-All jar dependencies are downloaded on first compile
-The services uses virtual threads which is included in Java 21+
-JDK 21 is downloaded on first compile
-Nginx src files are downloaded and compiled with script located in nginx/
-Starting Nginx:
-./nginx.sh -start/stop
-OrderService requires User and ProductService to be up.
+🥈 Finished 2nd in throughput challenge — first place team implemented non-functional shortcuts to artificially inflate throughput
+✅ Achieved perfect score on project evaluation
+🧠 Refactored and optimized entire system beyond team baseline implementation
 
-## Compilation
-To compile the entire project, run the following command:
+🔧 Tech Stack
+Languages	Frameworks & Tools	Infrastructure
+Java (Virtual Threads)	Hazelcast, Postgres, Docker, Bash	Nginx (load balancing), Linux (screen), Custom CLI
+Shell scripting	Git	JVM 21+, Maven (dynamic jar handling)
+🌐 Architecture Overview
+This project consists of four primary microservices:
+
+UserService: CRUD operations for users
+ProductService: Product catalog with stock management
+OrderService: Order placement, tracking, and purchase history
+Each service:
+
+Operates independently with its own endpoint
+Shares a centralized Postgres database with connection pooling
+Utilizes both in-memory (local) and Hazelcast (distributed) caching
+Exposes HTTP APIs used by a custom load generation and testing engine
+A reverse proxy powered by Nginx distributes load across clusters for horizontal scaling.
+
+🚀 Performance & Optimization Highlights
+Optimization	Impact
+⚙️ Java Virtual Threads	Reduced thread overhead, unlocked massive concurrency
+🧠 Caching Strategy (Hazelcast + Memory)	Cut latency by 150%
+💾 DB Write Batching + Indexes	Improved throughput and reduced I/O load
+🌐 Nginx Load Balancing	Increased request parallelism and fault tolerance
+🔄 Reusable HTTP Clients + Connection Pools	Eliminated recreate/destroy bottlenecks
+🧼 Logging Optimization	Boosted production performance via minimal I/O noise
+🛠️ Codebase Refactor	SOLID principles applied, removed redundancy, introduced abstractions
+🧪 Advanced Testing DSL	Enabled complex simulation and performance profiling
+Final benchmark:
+🔥 ~5900 req/s at demo, ~10,000 req/s locally under distributed mode
+📉 Initial baseline: 27 req/s
+
+💡 Innovation: Custom Load Testing DSL
+Created a domain-specific language (DSL) for realistic scenario simulation, supporting:
+
+Loops, variables, conditionals
+Randomized inputs
+Parallel execution with sync control
+Response assertions (HTTP code + body)
+GOTO and flow control
+Timers, sleep delays, and console tracing
+🔍 DSL made it possible to test edge cases, performance regressions, and failure scenarios in ways the professor-provided suite could not.
+
+📁 Example Test Script (Basic)
+📁 Advanced Test Script (High Load)
+
+📸 Demo Snapshot
+📍 Demo performed on-campus using real-time test loads
+🧪 Verified persistence, concurrent correctness, and error handling
+🔗 GitHub Repo
+
+🧱 How to Run Locally
+🐳 Prerequisites
+Linux/macOS environment (or WSL)
+Java 21+
+Bash, screen, and docker installed
+⚙️ Compilation
 ./runme.sh -c
+Downloads JDK 21, compiles code, and pulls dependencies automatically.
 
-## Running Microservices
-- Start All:
+🚀 Start All Services
 ./runme.sh -a
-Then to swich to any service screen:
-./runme.sh -su/p/o
-To detatch from service screen:
-ctrl+a AND THEN d
+Each service runs in its own screen. Use:
 
-- User Microservice:
-./runme.sh -u
+./runme.sh -su   # switch to UserService
+./runme.sh -p    # switch to ProductService
+./runme.sh -o    # switch to OrderService
+Detach from screen: Ctrl+A then D.
 
-- Product Microservice:
-./runme.sh -p
+🔄 Stop All Services
+./runme.sh -x
+🧠 Key Learnings
+Deep understanding of distributed systems under high load
+Leveraged performance profiling for bottleneck analysis and targeted tuning
+Applied real-world software architecture patterns (scalability, resiliency, abstraction)
+Built tooling (scripts, config systems, DSL) that streamlined dev/test ops
+Learned the importance of writing good code, not just working code
+🧑‍💻 Contributions & Ownership
+Although this was a team project, the initial codebase was largely non-functional.
+I independently:
 
-- ISCS Microservice:
-./runme.sh -i
+Refactored all core services
+Designed the caching and load balancing strategy
+Built the DSL testing engine and CLI scripts
+Engineered the final system that far exceeded performance expectations
+🧩 Configuration System
+Flexible JSON config supports:
 
-- Order Microservice:
-./runme.sh -o
+Per-service overrides
+Pool sizes, timeouts, queue lengths
+Cache type/parameters
+Logging verbosity
+Host IP autodetection
+Rapid switching between test environments
+📄 Example Config File
+
+📚 Project Background
+This was a capstone-style project for a university distributed systems course, with the goal of:
+
+Scaling microservices to support 1000+ concurrent clients
+Demonstrating resiliency and state consistency under high throughput
+Showcasing design thinking and engineering rigor
+📄 [Assignment Details](include link or PDF if available)
+
+📎 Links
+🔗 Live GitHub Repo
+📄 Advanced Test Script
+🛠️ Startup Script
+📢 Contact
+👤 Sam Zhang
+📬 sam.zhangv1.0@gmail.com
+🔗 LinkedIn | GitHub
